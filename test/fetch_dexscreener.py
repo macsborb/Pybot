@@ -1,4 +1,5 @@
 # ================== PROCESSOR ==================
+DEXSCREENER_URL = "https://api.dexscreener.com/token-pairs/v1/solana/"
 async def fetch_with_retry(mint, retries, delay):
     """
     Essaie de récupérer les infos DexScreener avec plusieurs tentatives.

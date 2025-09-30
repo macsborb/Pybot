@@ -1,32 +1,21 @@
 import asyncio
 import json
 import websockets
-import aiohttp
 from datetime import datetime
 import time
 import traceback
-import re
 from base58 import b58decode
 import winsound
 import importlib.util
 import sys
 
 # ================== CONFIG ==================
-RPC_URL = "wss://api.solanastreaming.com"
-TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
-DEXSCREENER_URL = "https://api.dexscreener.com/token-pairs/v1/solana/"
-
-MAX_AGE_SECONDS = 5  # max 15s depuis création
-
 FEE_RATE = 0.0025         # 0.25% par transaction (achat & vente)
 SLIPPAGE_RATE_BUY = 0.03    # 8% à l'achat
 SLIPPAGE_RATE_SELL = 0.03   # 3% à la vente
 TAX_RATE = 0.0              # 0% achat & vente
-
-
 TRADE_HOLD_SECONDS = 60           # durée d'attente avant revente
 TRADE_SIZE_SOL = 0.3               # montant investi par trade (en SOL)
-
 MAX_CONCURRENT_TRADES = 5         # ✅ limite de trades simultanés
 API_KEY = "eecbc989b2a944a6c7462016941249cc"
 SOLANA_STREAM_WS = "wss://api.solanastreaming.com/"  # remplace si nécessaire
@@ -34,11 +23,9 @@ SOLANA_STREAM_WS = "wss://api.solanastreaming.com/"  # remplace si nécessaire
 
 # ================== STATE ==================
 seen_tokens = set()
-
 portfolio_balance = 5.0        # Solde fictif du portefeuille en SOL
 revenue_total = 0.0            # PnL cumulé
 start_time = time.time()
-
 trade_count = 0
 rugged_count = 0
 successful_trades = 0
@@ -63,7 +50,6 @@ def save_stats():
     }
     with open("stats.json", "w") as f:
         json.dump(stats, f, indent=2)
-
 
 # ================== LOGGING ==================
 def stats_header() -> str:
@@ -207,6 +193,7 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
                 save_stats()
                 print_and_write_end_of_trade("\n".join(end_log))
                 return
+            
             trade_count += 1
             save_stats()
             sell_price = swap_info_sell["price_per_token"]
@@ -306,7 +293,6 @@ async def listen_pools(token_queue: asyncio.Queue):
 async def process_tokens(token_queue: asyncio.Queue):
     last_trade_time = 0
     RATE_LIMIT = 10  # secondes entre chaque trade
-
     while True:
         try:
             try:
