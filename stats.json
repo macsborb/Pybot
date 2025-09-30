@@ -1,0 +1,118 @@
+{
+  "portfolio_balance": 3.725010613490153,
+  "revenue_total": -0.07198938650984958,
+  "trade_count": 19,
+  "successful_trades": 10,
+  "nosuccessful_trades": 5,
+  "rugged_count": 2,
+  "pending_trades": 0,
+  "successful_trades_log": [
+    {
+      "time": "12:32:18",
+      "mint": "CaXTRcD4RKWuD7RCAN62qR1BHMmPbDYCyoh2QuKupump",
+      "pnl": 0.013559414207250063,
+      "buy_price": 3163.8768828033335,
+      "sell_price": 0.0003422409088942123
+    },
+    {
+      "time": "12:32:41",
+      "mint": "2xSnMUwFSiGdJaycHdq32WnnTwFKaHfKsXDCqsLSyedJ",
+      "pnl": 0.04419693348465001,
+      "buy_price": 11689.529839366667,
+      "sell_price": 0.00010165982347707361
+    },
+    {
+      "time": "12:33:31",
+      "mint": "JEBCoLUDY4dv3uuAJaUU3YhFoye6FGQQimtoDBCRanZN",
+      "pnl": 0.04717728025387507,
+      "buy_price": 4405.6562085666665,
+      "sell_price": 0.0002720645672872326
+    },
+    {
+      "time": "12:33:55",
+      "mint": "68cv6Y3GdxQ9kndVaBeoo8g7D7GN7Ak93B9nuEx7pump",
+      "pnl": 0.003000316611000001,
+      "buy_price": 2351.7941199433335,
+      "sell_price": 0.0004449503428579088
+    },
+    {
+      "time": "12:34:41",
+      "mint": "41TYK5LcaRYcaxEbFGEq8H1Fn6zxknzX9nNqKGByez2r",
+      "pnl": 0.035922458497200035,
+      "buy_price": 4047.909053993333,
+      "sell_price": 0.0002865305613003141
+    },
+    {
+      "time": "12:39:15",
+      "mint": "64dvggiJ4udC36y2Lks2YznDzcskTF6huhHkyj4pCAGw",
+      "pnl": 0.016722620073000002,
+      "buy_price": 3723.159563763333,
+      "sell_price": 0.0002937573445176655
+    },
+    {
+      "time": "12:39:56",
+      "mint": "4BwLDZtcUpF8n7Sutu26JLEU48jiaZkn74xtA9QwhPRC",
+      "pnl": 0.00998507121037506,
+      "buy_price": 10802.569138423334,
+      "sell_price": 9.909627388473644e-05
+    },
+    {
+      "time": "12:41:03",
+      "mint": "DMzLpdgtVLSKijuuzLtWNvKfNTEjSPAuLyuVorpqiUaR",
+      "pnl": 0.03882677225535001,
+      "buy_price": 4170.326682556667,
+      "sell_price": 0.00028051882159732235
+    },
+    {
+      "time": "12:41:24",
+      "mint": "2moCZAtf1DGAUQ6i19G8tSoCCkSCmYkUmNEsqDKsbguU",
+      "pnl": 0.05787717646140001,
+      "buy_price": 4147.254575703333,
+      "sell_price": 0.00029790418796684086
+    },
+    {
+      "time": "12:41:45",
+      "mint": "2BNfdtz2Qz9cQEybXJhyY1no2gn61rQqo5FqX8Pbpump",
+      "pnl": 0.010639915327050015,
+      "buy_price": 1963.40613289,
+      "sell_price": 0.0005463720905029048
+    }
+  ],
+  "nosuccessful_trades_log": [
+    {
+      "time": "12:34:16",
+      "mint": "48yjoFSJ8m6jgDorrYvwfxoLCPAuML9sGz975ZAJtbBY",
+      "pnl": -0.033570344506724935,
+      "buy_price": 2248.6123459933333,
+      "sell_price": 0.0004093387899015812
+    },
+    {
+      "time": "12:38:35",
+      "mint": "CeX8Dxq1Nta1KkdtgTJANsCsd6Mzsg1TmZpUKk5izMpM",
+      "pnl": -0.030199018096350002,
+      "buy_price": 107213.17455323666,
+      "sell_price": 8.693508149074098e-06
+    },
+    {
+      "time": "12:38:55",
+      "mint": "8GLZJZva3f9op6DhuVFEKk8GVBMLtmx8cp3RqaV3pump",
+      "pnl": -0.25160111641934996,
+      "buy_price": 921.3897344966666,
+      "sell_price": 0.0001837656751832188
+    },
+    {
+      "time": "12:39:36",
+      "mint": "DyppbwP6dfb8CcitHYT4e47Zky1S6A4GSCUVase8dray",
+      "pnl": -0.02028744491189998,
+      "buy_price": 61414.88107027333,
+      "sell_price": 1.573241441100294e-05
+    },
+    {
+      "time": "12:42:52",
+      "mint": "6GLccFycaJnr7BwbCRPMsBpeTxRv2ggrUHPg4tY2pump",
+      "pnl": -0.014239420956674988,
+      "buy_price": 2452.1124220533334,
+      "sell_price": 0.00040252642080747085
+    }
+  ]
+}
