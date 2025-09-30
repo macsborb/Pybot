@@ -2,7 +2,7 @@ import aiohttp
 import asyncio
 
 async def get_jupiter_swap_price(input_mint, output_mint, amount_in_lamports):
-    url = f"https://quote-api.jup.ag/v6/quote?inputMint={input_mint}&outputMint={output_mint}&amount={amount_in_lamports}&slippageBps=1000"
+    url = f"https://quote-api.jup.ag/v6/quote?inputMint={input_mint}&outputMint={output_mint}&amount={amount_in_lamports}&slippageBps=100"
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
             data = await resp.json()

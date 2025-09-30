@@ -19,7 +19,7 @@ DEXSCREENER_URL = "https://api.dexscreener.com/token-pairs/v1/solana/"
 MAX_AGE_SECONDS = 5  # max 15s depuis création
 
 FEE_RATE = 0.0025         # 0.25% par transaction (achat & vente)
-SLIPPAGE_RATE_BUY = 0.08    # 8% à l'achat
+SLIPPAGE_RATE_BUY = 0.03    # 8% à l'achat
 SLIPPAGE_RATE_SELL = 0.03   # 3% à la vente
 TAX_RATE = 0.0              # 0% achat & vente
 
@@ -28,7 +28,8 @@ TRADE_HOLD_SECONDS = 60           # durée d'attente avant revente
 TRADE_SIZE_SOL = 0.3               # montant investi par trade (en SOL)
 
 MAX_CONCURRENT_TRADES = 5         # ✅ limite de trades simultanés
-
+API_KEY = "eecbc989b2a944a6c7462016941249cc"
+SOLANA_STREAM_WS = "wss://api.solanastreaming.com/"  # remplace si nécessaire
 
 
 # ================== STATE ==================
@@ -110,143 +111,6 @@ def print_and_write_end_of_trade(extra: str):
 def print_runtime(msg: str):
     print(msg, flush=True)
 
-async def fetch_dexscreener(token_address: str, session: aiohttp.ClientSession = None):
-    """
-    Récupère les infos DexScreener pour un token (endpoint search qui renvoie une liste).
-    Compatible avec les paires renvoyées sous forme de liste.
-    """
-    url = DEXSCREENER_URL + token_address
-    close_session = False
-    if session is None:
-        session = aiohttp.ClientSession()
-        close_session = True
-    start = time.time()
-    try:
-        async with session.get(url, timeout=5) as resp:
-            elapsed = time.time() - start
-            if resp.status != 200:
-                print_runtime(f"[DEBUG] fetch_dexscreener: HTTP {resp.status} pour {token_address} en {elapsed:.2f}s")
-                return None
-            data = await resp.json()
-            if not isinstance(data, list) or len(data) == 0:
-                return None
-
-            pair = data[0]  # on prend la première paire
-            if not isinstance(pair, dict):
-                return None
-
-            # Extraction classique
-            base_token = pair.get("baseToken", {})
-            quote_token = pair.get("quoteToken", {})
-            volume = pair.get("volume", {})
-            txns = pair.get("txns", {})
-            liquidity = pair.get("liquidity", {})
-            price_change = pair.get("priceChange", {})
-
-            # --- Extraction socials & websites ---
-            socials = {}
-            websites = []
-            info_block = pair.get("info")
-            if isinstance(info_block, dict):
-                if "websites" in info_block and isinstance(info_block["websites"], list):
-                    websites = [w.get("url") for w in info_block["websites"] if isinstance(w, dict) and "url" in w]
-                if "socials" in info_block and isinstance(info_block["socials"], list):
-                    for s in info_block["socials"]:
-                        if isinstance(s, dict):
-                            socials[s.get("type")] = s.get("url")
-
-            return {
-                "chainId": pair.get("chainId"),
-                "dexId": pair.get("dexId"),
-                "url": pair.get("url"),
-                "pairAddress": pair.get("pairAddress"),
-                "base_name": base_token.get("name"),
-                "base_symbol": base_token.get("symbol"),
-                "base_address": base_token.get("address"),
-                "quote_name": quote_token.get("name"),
-                "quote_symbol": quote_token.get("symbol"),
-                "quote_address": quote_token.get("address"),
-                "price_native": pair.get("priceNative"),
-                "price_usd": pair.get("priceUsd"),
-                "fdv": pair.get("fdv"),
-                "market_cap": pair.get("marketCap"),
-                "pair_created_at": pair.get("pairCreatedAt"),
-                "volume_m5": volume.get("m5"),
-                "volume_h1": volume.get("h1"),
-                "volume_h6": volume.get("h6"),
-                "volume_h24": volume.get("h24"),
-                "txns_m5_buys": (txns.get("m5") or {}).get("buys"),
-                "txns_m5_sells": (txns.get("m5") or {}).get("sells"),
-                "txns_h1_buys": (txns.get("h1") or {}).get("buys"),
-                "txns_h1_sells": (txns.get("h1") or {}).get("sells"),
-                "txns_h24_buys": (txns.get("h24") or {}).get("buys"),
-                "txns_h24_sells": (txns.get("h24") or {}).get("sells"),
-                "price_change_m5": price_change.get("m5"),
-                "price_change_h1": price_change.get("h1"),
-                "price_change_h6": price_change.get("h6"),
-                "price_change_h24": price_change.get("h24"),
-                "liquidity_usd": liquidity.get("usd"),
-                "liquidity_base": liquidity.get("base"),
-                "liquidity_quote": liquidity.get("quote"),
-                "websites": websites,
-                "socials": socials,
-            }
-    except Exception as e:
-        elapsed = time.time() - start
-        print_runtime(f"[DEBUG] fetch_dexscreener: Exception {e} pour {token_address} en {elapsed:.2f}s")
-        return None
-    finally:
-        if close_session:
-            await session.close()
-
-API_KEY = "eecbc989b2a944a6c7462016941249cc"
-SOLANA_STREAM_WS = "wss://api.solanastreaming.com/"  # remplace si nécessaire
-
-async def listen_pools(token_queue: asyncio.Queue):
-    try:
-        async with websockets.connect(
-            SOLANA_STREAM_WS,
-            ping_interval=None,
-            close_timeout=10,
-            extra_headers={"X-API-KEY": API_KEY}
-        ) as ws:
-            await ws.send(json.dumps({
-                "jsonrpc": "2.0",
-                "id": 1,
-                "method": "newPairSubscribe",
-                "params": {
-                    "include_pumpfun": False
-                }
-            }))
-            print_runtime("📡 Listening SolanaStreaming new pairs...")
-
-            while True:
-                try:
-                    msg = await ws.recv()
-                    data = json.loads(msg)
-                    #print_runtime(f"[DEBUG] WS message: {data}")
-
-                    pair = data.get("params", {}).get("pair", {})
-                    if not pair:
-                        continue
-
-                    base = pair.get("baseToken", {})
-                    mint = base.get("account")
-                    decimals = base.get("info", {}).get("decimals", 9)  # fallback 9
-
-                    if mint and mint not in seen_tokens:
-                        seen_tokens.add(mint)
-                        await token_queue.put((mint, decimals))
-                    await asyncio.sleep(0.1)  # 🧘 petit délai pour éviter de spammer la boucle
-                except Exception as e:
-                    print_runtime(f"⚠️ Inner WS error: {e}")
-                    continue  # 🔑 rester dans la boucle
-
-    except Exception as e:
-        print_runtime(f"⚠️ Outer WS error: {e} — retrying in 5s")
-        await asyncio.sleep(5)
-
-
 # ================== TRADE SIMULATION ==================
 # Jupiter swap util
 spec = importlib.util.spec_from_file_location("jupiter", "jupiter.py")
@@ -280,8 +144,13 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
                 return
             pending_trades += 1
             save_stats()
+
+            # Prix instantané (hors slippage)
             buy_price = swap_info["price_per_token"]  # token par SOL
-            amount_token = swap_info["out_amount"] / (10 ** decimals)
+            amount_token_raw = swap_info["out_amount"] / (10 ** decimals)
+
+            # ✅ Application du slippage BUY (ex: 5% => on ne considère que 95% des tokens)
+            amount_token = amount_token_raw * (1 - SLIPPAGE_RATE_BUY)
 
             if buy_price <= 0 or amount_token <= 0:
                 log_lines.append("   ⚠️ Prix/quantité invalides. Achat annulé.")
@@ -289,7 +158,8 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
                 save_stats()
                 print_and_write_end_of_trade("\n".join(log_lines))
                 return
-            # ✅ seulement maintenant on déduit du portefeuille
+
+            # Frais / taxes appliqués côté SOL
             buy_fee = buy_amount_sol * FEE_RATE
             buy_tax = buy_amount_sol * TAX_RATE
             total_buy_cost = buy_amount_sol + buy_fee + buy_tax
@@ -312,7 +182,8 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
             return
 
         log_lines.append(f"   ➤ Prix d'achat Jupiter : {buy_price:.8f} token/SOL")
-        log_lines.append(f"   ➤ Quantité achetée : {amount_token:.6f} token")
+        log_lines.append(f"   ➤ Quantité théorique : {amount_token_raw:.6f} token")
+        log_lines.append(f"   ➤ Quantité avec slippage : {amount_token:.6f} token")
         log_lines.append(f"   ➤ Frais+taxes : {(buy_fee+buy_tax):.4f} SOL")
         log_lines.append(f"   ➤ Solde portefeuille : {portfolio_balance:.4f} SOL")
         log_lines.append(f"   ➤ Attente {hold_seconds}s...\n")
@@ -387,21 +258,49 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
         end_log.append(f"   ➤ Solde portefeuille : {portfolio_balance:.4f} SOL")
         print_and_write_end_of_trade("\n".join(end_log))
 
-# ================== PROCESSOR ==================
-async def fetch_with_retry(mint, retries, delay):
-    """
-    Essaie de récupérer les infos DexScreener avec plusieurs tentatives.
-    - retries : nombre de tentatives max
-    - delay   : délai de base entre chaque retry (progressif)
-    """
-    for i in range(retries):
-        data = await fetch_dexscreener(mint)
-        if data:
-            return data
-        wait_time = delay
-        #print_runtime(f"[DEBUG-Retry-{i}] {mint} pas encore indexé, retry dans {wait_time}s...")
-        await asyncio.sleep(wait_time)
-    return None
+async def listen_pools(token_queue: asyncio.Queue):
+    try:
+        async with websockets.connect(
+            SOLANA_STREAM_WS,
+            ping_interval=None,
+            close_timeout=10,
+            extra_headers={"X-API-KEY": API_KEY}
+        ) as ws:
+            await ws.send(json.dumps({
+                "jsonrpc": "2.0",
+                "id": 1,
+                "method": "newPairSubscribe",
+                "params": {
+                    "include_pumpfun": False
+                }
+            }))
+            print_runtime("📡 Listening SolanaStreaming new pairs...")
+
+            while True:
+                try:
+                    msg = await ws.recv()
+                    data = json.loads(msg)
+                    #print_runtime(f"[DEBUG] WS message: {data}")
+
+                    pair = data.get("params", {}).get("pair", {})
+                    if not pair:
+                        continue
+
+                    base = pair.get("baseToken", {})
+                    mint = base.get("account")
+                    decimals = base.get("info", {}).get("decimals", 9)  # fallback 9
+
+                    if mint and mint not in seen_tokens:
+                        seen_tokens.add(mint)
+                        await token_queue.put((mint, decimals))
+                    await asyncio.sleep(0.1)  # 🧘 petit délai pour éviter de spammer la boucle
+                except Exception as e:
+                    print_runtime(f"⚠️ Inner WS error: {e}")
+                    continue  # 🔑 rester dans la boucle
+
+    except Exception as e:
+        print_runtime(f"⚠️ Outer WS error: {e} — retrying in 5s")
+        await asyncio.sleep(5)
 
 
 async def process_tokens(token_queue: asyncio.Queue):
@@ -425,56 +324,18 @@ async def process_tokens(token_queue: asyncio.Queue):
 
             print_runtime(f"\n🔍 Nouveau token détecté : {mint}")
             await asyncio.sleep(2)
-            # ✅ On attend DexScreener avec retry intelligent
-            # token_data = await fetch_with_retry(mint, retries=40, delay=1)
-            # if not token_data:
-            #     print_runtime(f"⏭️  {mint} ignoré (pas de données DexScreener).")
-            #     continue
 
             print_runtime(f"✅ Nouveau token retenu: https://dexscreener.com/solana/{mint}")
             asyncio.create_task(simulate_trade(mint, decimals))
 
             last_trade_time = time.time()  # mise à jour du timestamp
-            await asyncio.sleep(0)  # yield pour éviter blocage
+            await asyncio.sleep(2)  # yield pour éviter blocage
 
         except asyncio.CancelledError:
             raise
         except Exception as e:
             print_runtime(f"⚠️ Erreur process_tokens: {e}\n{traceback.format_exc()}")
             await asyncio.sleep(1)
-
-def passes_buy_filters(meta: dict) -> (bool, str):
-    """
-    Vérifie si le token est intéressant pour un achat.
-    Retourne (True/False, raison).
-    """
-
-    # Sécurité : cast des champs numériques
-    def safe_float(x, default=0.0):
-        try:
-            return float(x) if x is not None else default
-        except:
-            return default
-
-    def safe_int(x, default=0):
-        try:
-            return int(x) if x is not None else default
-        except:
-            return default
-        
-    # # 5️⃣ Socials (twitter, tg, site…)
-    # socials = meta.get("socials", {})
-    # has_socials = any([
-    #     socials.get("twitter"),
-    #     socials.get("telegram"),
-    #     socials.get("website"),
-    #     socials.get("discord")
-    # ])
-    # if not has_socials:
-    #     return False, "Pas de réseaux sociaux (shitcoin probable)"
-
-    # ✅ Si tout est ok
-    return True, "OK"
 
 # ================== MAIN ==================
 async def main():
