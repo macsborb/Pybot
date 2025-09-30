@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 import os
+import pandas as pd
 
 # --- Fonction pour charger les stats ---
 def load_stats():
@@ -63,13 +64,53 @@ else:
 
     # --- Historique des trades ---
     st.subheader("📜 Historique")
+
     success_log = stats.get("successful_trades_log", [])
     fail_log = stats.get("nosuccessful_trades_log", [])
+    rugpull_log = stats.get("rugpull_trades_log", [])
 
-    if success_log:
-        st.markdown("### ✅ Trades réussis")
-        st.table(success_log)
+    def format_dataframe(logs, title, color):
+        if logs:
+            st.markdown(f"### {title}")
+            df = pd.DataFrame(logs)
 
-    if fail_log:
-        st.markdown("### ❌ Trades ratés")
-        st.table(fail_log)
+            # Lien cliquable Dexscreener si mint commence par "http"
+            if "mint" in df:
+                df["mint"] = df["mint"].apply(
+                    lambda x: f"[Lien Dexscreener]({x})" if str(x).startswith("http") else x
+                )
+
+            # Forcer les formats
+            if "buy_price" in df:
+                df["buy_price"] = df["buy_price"].apply(lambda x: f"{float(x):.12f}")
+            if "sell_price" in df:
+                df["sell_price"] = df["sell_price"].apply(lambda x: f"{float(x):.12f}")
+            if "amount_token" in df:
+                df["amount_token"] = df["amount_token"].apply(lambda x: f"{float(x):,.2f}")
+            if "pnl" in df:
+                df["pnl"] = df["pnl"].apply(lambda x: f"{float(x):.6f}")
+
+            # Réorganiser et renommer joliment
+            columns = []
+            if "time" in df: columns.append("time")
+            if "mint" in df: columns.append("mint")
+            if "amount_token" in df: columns.append("amount_token")
+            if "buy_price" in df: columns.append("buy_price")
+            if "sell_price" in df: columns.append("sell_price")
+            if "pnl" in df: columns.append("pnl")
+            df = df[columns]
+
+            df.rename(columns={
+                "time": "⏰ time",
+                "mint": "🎯 mint",
+                "amount_token": "📦 amount_token",
+                "buy_price": "🟢 buy_price (SOL/token)",
+                "sell_price": "🔴 sell_price (SOL/token)",
+                "pnl": "💰 pnl (SOL)"
+            }, inplace=True)
+
+            st.markdown(df.to_markdown(index=False), unsafe_allow_html=True)
+
+    format_dataframe(success_log, "✅ Trades réussis", "green")
+    format_dataframe(fail_log, "❌ Trades ratés", "red")
+    format_dataframe(rugpull_log, "💀 Rug Pulls", "gray")

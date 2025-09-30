@@ -14,7 +14,7 @@ FEE_RATE = 0.0025         # 0.25% par transaction (achat & vente)
 SLIPPAGE_RATE_BUY = 0.03    # 8% à l'achat
 SLIPPAGE_RATE_SELL = 0.03   # 3% à la vente
 TAX_RATE = 0.0              # 0% achat & vente
-TRADE_HOLD_SECONDS = 60           # durée d'attente avant revente
+TRADE_HOLD_SECONDS = 40           # durée d'attente avant revente
 TRADE_SIZE_SOL = 0.3               # montant investi par trade (en SOL)
 MAX_CONCURRENT_TRADES = 5         # ✅ limite de trades simultanés
 API_KEY = "eecbc989b2a944a6c7462016941249cc"
@@ -33,10 +33,12 @@ nosuccessful_trades = 0
 pending_trades = 0
 successful_trades_log = []
 nosuccessful_trades_log = []
+rugpull_trades_log = []
+
 trade_semaphore = asyncio.Semaphore(MAX_CONCURRENT_TRADES)
 
 def save_stats():
-    global portfolio_balance, revenue_total, trade_count, successful_trades, nosuccessful_trades, rugged_count, pending_trades, successful_trades_log, nosuccessful_trades_log
+    global portfolio_balance, revenue_total, trade_count, successful_trades, nosuccessful_trades, rugged_count, pending_trades, successful_trades_log, nosuccessful_trades_log, rugpull_trades_log
     stats = {
         "portfolio_balance": portfolio_balance,
         "revenue_total": revenue_total,
@@ -46,7 +48,8 @@ def save_stats():
         "rugged_count": rugged_count,
         "pending_trades": pending_trades,
         "successful_trades_log": successful_trades_log,
-        "nosuccessful_trades_log": nosuccessful_trades_log
+        "nosuccessful_trades_log": nosuccessful_trades_log,
+        "rugpull_trades_log": rugpull_trades_log
     }
     with open("stats.json", "w") as f:
         json.dump(stats, f, indent=2)
@@ -105,7 +108,8 @@ sys.modules["jupiter"] = jupiter
 spec.loader.exec_module(jupiter)
 
 async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_seconds=TRADE_HOLD_SECONDS):
-    global portfolio_balance, revenue_total, trade_count, rugged_count, successful_trades, pending_trades, successful_trades_log, nosuccessful_trades, nosuccessful_trades_log
+    global portfolio_balance, revenue_total, trade_count, rugged_count, successful_trades, pending_trades
+    global successful_trades_log, nosuccessful_trades, nosuccessful_trades_log, rugpull_trades_log
 
     # 🚦 Attendre qu'il y ait un slot dispo
     while pending_trades >= MAX_CONCURRENT_TRADES:
@@ -135,7 +139,7 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
             buy_price = swap_info["price_per_token"]  # token par SOL
             amount_token_raw = swap_info["out_amount"] / (10 ** decimals)
 
-            # ✅ Application du slippage BUY (ex: 5% => on ne considère que 95% des tokens)
+            # ✅ Application du slippage BUY
             amount_token = amount_token_raw * (1 - SLIPPAGE_RATE_BUY)
 
             if buy_price <= 0 or amount_token <= 0:
@@ -167,9 +171,12 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
             print_and_write_end_of_trade("\n".join(log_lines))
             return
 
-        log_lines.append(f"   ➤ Prix d'achat Jupiter : {buy_price:.8f} token/SOL")
-        log_lines.append(f"   ➤ Quantité théorique : {amount_token_raw:.6f} token")
-        log_lines.append(f"   ➤ Quantité avec slippage : {amount_token:.6f} token")
+        # -------- ACHAT --------
+        buy_price_token_in_sol = buy_amount_sol / amount_token  # SOL par token
+        amount_token_bought = amount_token  # quantité de tokens réellement obtenue
+
+        log_lines.append(f"   ➤ Prix du token à l'achat : {buy_price_token_in_sol:.8f} SOL/token")
+        log_lines.append(f"   ➤ Quantité achetée : {amount_token_bought:.6f} tokens")
         log_lines.append(f"   ➤ Frais+taxes : {(buy_fee+buy_tax):.4f} SOL")
         log_lines.append(f"   ➤ Solde portefeuille : {portfolio_balance:.4f} SOL")
         log_lines.append(f"   ➤ Attente {hold_seconds}s...\n")
@@ -186,9 +193,34 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
             if (not swap_info_sell 
                 or "error" in swap_info_sell 
                 or swap_info_sell.get("out_amount", 0) <= 0):
-                # 🚨 Rug pull détecté : achat ok mais plus de liquidité au sell
+                # 🚨 Rug pull détecté → perte totale du trade
                 end_log.append("   💀 Rug pull détecté : plus aucune liquidité pour revendre.")
                 rugged_count += 1
+
+                # ❌ On considère que tout le total_buy_cost est perdu
+                revenue_total -= total_buy_cost
+                pnl = -total_buy_cost
+
+                rugpull_trades_log.append({   # <--- on log dans un tableau dédié
+                    "time": now,
+                    "mint": "https://dexscreener.com/solana/" + mint,
+                    "pnl": pnl,
+                    "buy_price": buy_price_token_in_sol,
+                    "sell_price": 0,
+                    "amount_token": amount_token_bought
+                })
+
+                now = datetime.now().strftime("%H:%M:%S")
+                nosuccessful_trades += 1
+                nosuccessful_trades_log.append({
+                    "time": now,
+                    "mint": "https://dexscreener.com/solana/" + mint,
+                    "pnl": pnl,
+                    "buy_price": buy_price_token_in_sol,
+                    "sell_price": 0,
+                    "amount_token": amount_token_bought
+                })
+
                 pending_trades -= 1
                 save_stats()
                 print_and_write_end_of_trade("\n".join(end_log))
@@ -206,6 +238,7 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
             print_and_write_end_of_trade("\n".join(end_log))
             return
 
+        # Si la vente est possible
         sell_value = sol_received * (1 - SLIPPAGE_RATE_SELL)
         sell_fee = sell_value * FEE_RATE
         sell_tax = sell_value * TAX_RATE
@@ -214,16 +247,19 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
         portfolio_balance += sell_value - sell_fee - sell_tax
         revenue_total += pnl
 
+        sell_price_token_in_sol = sol_received / amount_token  # SOL par token
+
         if pnl > 0:
             successful_trades += 1
             save_stats()
             now = datetime.now().strftime("%H:%M:%S")
             successful_trades_log.append({
                 "time": now,
-                "mint": mint,
+                "mint": "https://dexscreener.com/solana/" + mint,
                 "pnl": pnl,
-                "buy_price": buy_price,
-                "sell_price": sell_price
+                "buy_price": buy_price_token_in_sol,
+                "sell_price": sell_price_token_in_sol,
+                "amount_token": amount_token_bought
             })
         else:
             nosuccessful_trades += 1
@@ -231,15 +267,18 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
             now = datetime.now().strftime("%H:%M:%S")
             nosuccessful_trades_log.append({
                 "time": now,
-                "mint": mint,
+                "mint": "https://dexscreener.com/solana/" + mint,
                 "pnl": pnl,
-                "buy_price": buy_price,
-                "sell_price": sell_price
+                "buy_price": buy_price_token_in_sol,
+                "sell_price": sell_price_token_in_sol,
+                "amount_token": amount_token_bought
             })
         pending_trades -= 1
         save_stats()
 
-        end_log.append(f"   ➤ Prix de vente : {sell_price:.8f} SOL/token")
+        # -------- VENTE --------
+        end_log.append(f"   ➤ Prix du token à la vente : {sell_price_token_in_sol:.8f} SOL/token")
+        end_log.append(f"   ➤ Quantité vendue : {amount_token:.6f} tokens")
         end_log.append(f"   ➤ SOL reçu : {sell_value:.6f} SOL")
         end_log.append(f"   ➤ PnL : {pnl:.4f} SOL ✅")
         end_log.append(f"   ➤ Solde portefeuille : {portfolio_balance:.4f} SOL")
@@ -258,7 +297,7 @@ async def listen_pools(token_queue: asyncio.Queue):
                 "id": 1,
                 "method": "newPairSubscribe",
                 "params": {
-                    "include_pumpfun": False
+                    "include_pumpfun": True
                 }
             }))
             print_runtime("📡 Listening SolanaStreaming new pairs...")

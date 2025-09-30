@@ -1,21 +1,14 @@
-Trades pris : 19
-Rugged : 2
-Trades réussis : 10
-Trades non réussis : 5
-Trades en cours : 0
-Solde portefeuille : 3.7250 SOL
-Revenu total : -0.0720 SOL
-Temps écoulé : 13 min 40 sec
-Gain moyen/min : -0.0053 SOL | Gain moyen/heure : -0.3157 SOL
+Trades pris : 12
+Rugged : 8
+Trades réussis : 3
+Trades non réussis : 9
+Trades en cours : 3
+Solde portefeuille : 1.5217 SOL
+Revenu total : -2.5761 SOL
+Temps écoulé : 4 min 34 sec
+Gain moyen/min : -0.5636 SOL | Gain moyen/heure : -33.8132 SOL
 
 --- Détail des trades réussis ---
-[12:32:18] CaXTRcD4RKWuD7RCAN62qR1BHMmPbDYCyoh2QuKupump | +0.0136 SOL | Buy: 3163.87688280 | Sell: 0.00034224
-[12:32:41] 2xSnMUwFSiGdJaycHdq32WnnTwFKaHfKsXDCqsLSyedJ | +0.0442 SOL | Buy: 11689.52983937 | Sell: 0.00010166
-[12:33:31] JEBCoLUDY4dv3uuAJaUU3YhFoye6FGQQimtoDBCRanZN | +0.0472 SOL | Buy: 4405.65620857 | Sell: 0.00027206
-[12:33:55] 68cv6Y3GdxQ9kndVaBeoo8g7D7GN7Ak93B9nuEx7pump | +0.0030 SOL | Buy: 2351.79411994 | Sell: 0.00044495
-[12:34:41] 41TYK5LcaRYcaxEbFGEq8H1Fn6zxknzX9nNqKGByez2r | +0.0359 SOL | Buy: 4047.90905399 | Sell: 0.00028653
-[12:39:15] 64dvggiJ4udC36y2Lks2YznDzcskTF6huhHkyj4pCAGw | +0.0167 SOL | Buy: 3723.15956376 | Sell: 0.00029376
-[12:39:56] 4BwLDZtcUpF8n7Sutu26JLEU48jiaZkn74xtA9QwhPRC | +0.0100 SOL | Buy: 10802.56913842 | Sell: 0.00009910
-[12:41:03] DMzLpdgtVLSKijuuzLtWNvKfNTEjSPAuLyuVorpqiUaR | +0.0388 SOL | Buy: 4170.32668256 | Sell: 0.00028052
-[12:41:24] 2moCZAtf1DGAUQ6i19G8tSoCCkSCmYkUmNEsqDKsbguU | +0.0579 SOL | Buy: 4147.25457570 | Sell: 0.00029790
-[12:41:45] 2BNfdtz2Qz9cQEybXJhyY1no2gn61rQqo5FqX8Pbpump | +0.0106 SOL | Buy: 1963.40613289 | Sell: 0.00054637
+[19:08:22] https://dexscreener.com/solana/5GtDcji6jeVZaraYwypVj5WpooEdThxkAkXdR76Ppump | +0.1115 SOL | Buy: 0.00000003 | Sell: 0.00000005
+[19:09:46] https://dexscreener.com/solana/3PnDCSY6XaSMA1JycvQRfFrnp7kdWCZ7MzKjd1HKpump | +0.1164 SOL | Buy: 0.00000003 | Sell: 0.00000004
+[19:11:11] https://dexscreener.com/solana/AkemoRadxbkV2h2togKEJ191Dpvm8o9EMKyYotAmpump | +0.0085 SOL | Buy: 0.00000043 | Sell: 0.00000046
