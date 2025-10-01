@@ -1,14 +1,91 @@
-Trades pris : 12
-Rugged : 8
-Trades réussis : 3
-Trades non réussis : 9
-Trades en cours : 3
-Solde portefeuille : 1.5217 SOL
-Revenu total : -2.5761 SOL
-Temps écoulé : 4 min 34 sec
-Gain moyen/min : -0.5636 SOL | Gain moyen/heure : -33.8132 SOL
+Trades pris : 110
+Rugged : 4
+Trades réussis : 80
+Trades non réussis : 26
+Trades en cours : -285
+Solde portefeuille : 2.8902 SOL
+Revenu total : 1.8109 SOL
+Temps écoulé : 263 min 43 sec
+Gain moyen/min : 0.0069 SOL | Gain moyen/heure : 0.4120 SOL
 
 --- Détail des trades réussis ---
-[19:08:22] https://dexscreener.com/solana/5GtDcji6jeVZaraYwypVj5WpooEdThxkAkXdR76Ppump | +0.1115 SOL | Buy: 0.00000003 | Sell: 0.00000005
-[19:09:46] https://dexscreener.com/solana/3PnDCSY6XaSMA1JycvQRfFrnp7kdWCZ7MzKjd1HKpump | +0.1164 SOL | Buy: 0.00000003 | Sell: 0.00000004
-[19:11:11] https://dexscreener.com/solana/AkemoRadxbkV2h2togKEJ191Dpvm8o9EMKyYotAmpump | +0.0085 SOL | Buy: 0.00000043 | Sell: 0.00000046
+[00:10:26] https://dexscreener.com/solana/39FhH6qHoSF7vfPGwJQ7a1cvsSSGkQCyuiTSV89Rpbak | +0.0117 SOL | Buy: 0.00000023 | Sell: 0.00000024
+[00:15:23] https://dexscreener.com/solana/9M5y9yZUxGxmmcmSXKqmFdi7Yy2cLMbmwKEwK4NWpump | +0.4178 SOL | Buy: 0.00000051 | Sell: 0.00000123
+[00:16:03] https://dexscreener.com/solana/Dhpve4RNhKX9b99JxeTS4vwpbzxzaaNLDx3ZMNqMpump | +0.0107 SOL | Buy: 0.00000041 | Sell: 0.00000043
+[00:16:50] https://dexscreener.com/solana/BqpzQTm6EzcSeCbe3jDjxEDrC85oQmM5pbbnb9yUpump | +0.0317 SOL | Buy: 0.00000041 | Sell: 0.00000046
+[00:18:14] https://dexscreener.com/solana/7yC6QNtsygMEUSpFMyNxUfgyWcuSSLJ4gh1xAwE4YecB | +0.0184 SOL | Buy: 0.00000009 | Sell: 0.00000009
+[00:19:06] https://dexscreener.com/solana/8yLnd1PZfM8hyV8fXBn5piJMnry3h91EYN2BHsTp4zDh | +0.0129 SOL | Buy: 0.00000025 | Sell: 0.00000026
+[00:19:28] https://dexscreener.com/solana/K57EE7d8odhNnyofTt56gi3GpRfeAUdZQTMhFWoHyWD | +0.0118 SOL | Buy: 0.00000024 | Sell: 0.00000025
+[00:19:42] https://dexscreener.com/solana/GeuBGLyLeb1mxvMui4TgCqTny7KcrEuHwnU11353X2hP | +0.1345 SOL | Buy: 0.00000034 | Sell: 0.00000050
+[00:21:25] https://dexscreener.com/solana/4K7aVwWrQBW6oC1Vu6MqLAsMpHjc1o2NX6QM8217pump | +0.0275 SOL | Buy: 0.00000030 | Sell: 0.00000033
+[00:21:35] https://dexscreener.com/solana/AVoL2kJef12PQyiW4Jq4zQacZ9MtSfSHPfoXKPJMT7r5 | +0.0057 SOL | Buy: 0.00000025 | Sell: 0.00000026
+[00:23:29] https://dexscreener.com/solana/KsJJoWN1bd39A42WkK5VKaKTkSc3fmJxgeVn2msnKdd | +0.0026 SOL | Buy: 0.00000024 | Sell: 0.00000025
+[00:24:10] https://dexscreener.com/solana/2XpgXULEvbWhD3tBWWF6k6m4eJHpWBhGS3WBnyhT2bBP | +0.0430 SOL | Buy: 0.00000013 | Sell: 0.00000015
+[00:26:03] https://dexscreener.com/solana/6ysmtk26fxnNWgVNQ5svsNKe8dYKsTkytgMxWZ4dCq1n | +0.0024 SOL | Buy: 0.00000025 | Sell: 0.00000026
+[00:26:25] https://dexscreener.com/solana/GjJ8apSckybBPXexzDY9y3s76XfNokm1LKGwm4Gdpump | +0.0104 SOL | Buy: 0.00000042 | Sell: 0.00000044
+[00:26:46] https://dexscreener.com/solana/FJxTcL6k9UH33GBei4DgJbnNdZSAJBjGZtFJu4Zms1kC | +0.0258 SOL | Buy: 0.00000024 | Sell: 0.00000026
+[00:27:39] https://dexscreener.com/solana/BPvMGd28255mhebmhWTXYci8vtoUfaYLyf4c1LXbzPbX | +0.0049 SOL | Buy: 0.00000009 | Sell: 0.00000009
+[00:30:23] https://dexscreener.com/solana/9XMMfcKxxtQCqDdNCE6RAUTxjM9Bvqm6eLpcL9iiLzM6 | +0.0021 SOL | Buy: 0.00028224 | Sell: 0.00028852
+[00:31:09] https://dexscreener.com/solana/9MuiznYsqJHQHq6JMU3ZakBa7NwAqEA5H8ywrPvf1777 | +0.0373 SOL | Buy: 0.00000041 | Sell: 0.00000047
+[00:31:15] https://dexscreener.com/solana/3mHtJaW2Vyp7v7KstrNxAqQAdz2G9JqHGgt2Qu8f7Fko | +0.0013 SOL | Buy: 0.00000025 | Sell: 0.00000025
+[00:34:12] https://dexscreener.com/solana/4pD7852j979kqrDMwK7s8qGREFqhZ7c5yt9pwsk6fcRu | +0.0026 SOL | Buy: 0.00097077 | Sell: 0.00099389
+[00:34:40] https://dexscreener.com/solana/BT3qKunPyX2cg5LR1nJGV72a8ye3MiBn4SGsj4ttpump | +0.0246 SOL | Buy: 0.00000041 | Sell: 0.00000045
+[00:35:05] https://dexscreener.com/solana/2ea7n91tx3eCRD6NqtD8YWtfBY2T9q3w7H8spVSjhPar | +0.0143 SOL | Buy: 0.00000023 | Sell: 0.00000024
+[00:36:09] https://dexscreener.com/solana/ExGKraPTkZoskHi9AoExxX5AMZMD9gBXGcLuGm6EdYE4 | +0.0006 SOL | Buy: 0.00028224 | Sell: 0.00028713
+[00:39:01] https://dexscreener.com/solana/DHCeAoZDEQ8YbUATyxPRkgCWsuHbLf7zdNQmnKrE388Q | +0.1033 SOL | Buy: 0.00246329 | Sell: 0.00335982
+[00:39:10] https://dexscreener.com/solana/7BjgQNg2jZeSnJnjXn6SiPknKgrzqZzXtvMz35Y9bKJD | +0.1694 SOL | Buy: 0.00000057 | Sell: 0.00000091
+[00:39:52] https://dexscreener.com/solana/9KxET9cAv3kvHLWfHntYc7NFAGTecFoJojwrh37YW5pq | +0.0216 SOL | Buy: 0.00000024 | Sell: 0.00000026
+[00:40:13] https://dexscreener.com/solana/7F3ybVpGUkwW4sQNZnKdr8nvX3PAt3jJFmWJKNW5pump | +0.0091 SOL | Buy: 0.00000043 | Sell: 0.00000045
+[00:40:39] https://dexscreener.com/solana/GvKZCsbE9eK65r8W7tEfLH859NDLvoGZ3yBxs95BEXsU | +0.0485 SOL | Buy: 0.00000076 | Sell: 0.00000090
+[00:42:15] https://dexscreener.com/solana/FrNSmGnNe3rmpEVxVEfrwoTJkEeRQKdRVQxaCYXqpump | +0.0014 SOL | Buy: 0.00000041 | Sell: 0.00000042
+[00:42:34] https://dexscreener.com/solana/D9vrFeWDoeHAQc9wqMrG4G76MCJfJQMMfRWN5nFtpump | +0.0356 SOL | Buy: 0.00000030 | Sell: 0.00000034
+[00:43:58] https://dexscreener.com/solana/8JLzGgzEmgBow5uuND5psPVm7R8qcbbfsb87i4PWicn4 | +0.2831 SOL | Buy: 0.00000028 | Sell: 0.00000054
+[00:46:30] https://dexscreener.com/solana/2Xo3kZcRN943Po49Gb6QdvfzKA9i5DfS6qVJs8Yspump | +0.0155 SOL | Buy: 0.00000041 | Sell: 0.00000044
+[00:46:40] https://dexscreener.com/solana/G8S8eWnJto7PgBNjYC7em68KBEV4VAv1k63kV5zf8uo4 | +0.2309 SOL | Buy: 0.00000029 | Sell: 0.00000051
+[00:47:39] https://dexscreener.com/solana/3Z1uPcSEuh7QNjhn9QKcWH9t3cbgJP5GSQURNXkDpump | +0.0052 SOL | Buy: 0.00000031 | Sell: 0.00000032
+[00:49:23] https://dexscreener.com/solana/9uCpFUJc8ojddoAm63SmLjVCk2X2WXsTrAsWveAHMbFU | +0.0205 SOL | Buy: 0.00000014 | Sell: 0.00000015
+[00:50:49] https://dexscreener.com/solana/94UZHzqSBNSBu8qqRrVQpqT9JK4WoMsxBvXRvcBejmpH | +0.1226 SOL | Buy: 0.00000027 | Sell: 0.00000038
+[00:51:33] https://dexscreener.com/solana/HAVbCvz3DwNuCuCWu7YHWBWEkc5S75J1Un8i16j8pump | +0.0257 SOL | Buy: 0.00000041 | Sell: 0.00000045
+[00:55:06] https://dexscreener.com/solana/9ryWri9jzkwyJbBb9ww2wWjXZWMkKv8k9kkCtMP2fsYc | +0.0117 SOL | Buy: 0.00000024 | Sell: 0.00000025
+[00:56:45] https://dexscreener.com/solana/GUuEm9DgNkUgDh83mqNVCo3V7vGpc1z4D8KEMkxSpump | +0.0137 SOL | Buy: 0.00000045 | Sell: 0.00000048
+[00:57:47] https://dexscreener.com/solana/6X456kTSzUw1Z5FYknXzYtCXpS7w7RwEHEfCZEcxs32V | +0.0027 SOL | Buy: 0.00000009 | Sell: 0.00000009
+[01:00:53] https://dexscreener.com/solana/Cq4ebBjrHXVs2ooWGkK3TDTzJ7rJq7RH4CwFPHSypump | +0.0271 SOL | Buy: 0.00000041 | Sell: 0.00000046
+[01:01:25] https://dexscreener.com/solana/Bgn7gCWLXAsnanLiMDiPfmRbfo6uRex7SqYgHQJcLAV8 | +0.1014 SOL | Buy: 0.00246329 | Sell: 0.00334413
+[01:01:33] https://dexscreener.com/solana/CYAGc4PnFzn8yTX5Mg3osZpfb3VUCZYixcNyGgs2pump | +0.0172 SOL | Buy: 0.00000041 | Sell: 0.00000044
+[01:03:11] https://dexscreener.com/solana/9jVJpLzRToTFpXncgLqfz4bT4Rvv1r2Xhw2LsYacMjLi | +0.0058 SOL | Buy: 0.00028224 | Sell: 0.00029207
+[01:04:24] https://dexscreener.com/solana/Be5x62m3jd713sSLbZLVU2Rz336oeMa4k5WwLybQ3Je3 | +0.0189 SOL | Buy: 0.00000023 | Sell: 0.00000025
+[01:05:00] https://dexscreener.com/solana/GvSr8Hyb6maPaHTuN6RrMTwqQSgFSsvM8a4s23vMpump | +0.0019 SOL | Buy: 0.00000034 | Sell: 0.00000035
+[01:05:37] https://dexscreener.com/solana/HD9nwv7kM7HbRM9jCcyFuRrzhu3m5sp1wDofVFaB4Rj2 | +0.1429 SOL | Buy: 0.00000476 | Sell: 0.00000713
+[01:05:49] https://dexscreener.com/solana/3dg7vFLgGXrHaGzz1VYNMvL5z8KbRWq1mFkajDyCP7PD | +0.0659 SOL | Buy: 0.00000034 | Sell: 0.00000042
+[01:06:13] https://dexscreener.com/solana/Dv7nhGaqTSHZR5gBFToPueykaRkosi8N7F9fpXVtMGTS | +0.0274 SOL | Buy: 0.00000024 | Sell: 0.00000027
+[01:06:26] https://dexscreener.com/solana/FJ7WVuTybqEJVHk19PW9q9y2XPSeNJKNgai3KeRk3G7u | +0.0185 SOL | Buy: 0.00170681 | Sell: 0.00183932
+[01:06:50] https://dexscreener.com/solana/ALhGLJHjagHGRwhsw5rrt8g5B2apa5vRH5JXVwFbAod2 | +0.0253 SOL | Buy: 0.00000024 | Sell: 0.00000027
+[01:07:37] https://dexscreener.com/solana/8Y1f7dFfZ7XrAFSf5of3i46p365ARDwNK7HRPpAZrCz4 | +0.0003 SOL | Buy: 0.00028675 | Sell: 0.00029142
+[01:08:02] https://dexscreener.com/solana/9GNYdCXpbKSVoJNarQmpT8Rq2YJWkbVAsfEnUzjbRaag | +0.0348 SOL | Buy: 0.00000051 | Sell: 0.00000058
+[01:08:13] https://dexscreener.com/solana/8zwS4XvSRGyFLZmLKduiiE6i4wDMcWjp3eEK6XTwcSMd | +0.0982 SOL | Buy: 0.00313276 | Sell: 0.00421861
+[01:09:37] https://dexscreener.com/solana/BNn3WYBz1z9VVdpENR94nCoP9ZrSXqAUsZjcBtQepump | +0.0295 SOL | Buy: 0.00000041 | Sell: 0.00000046
+[01:10:28] https://dexscreener.com/solana/J6QPTU8csRgk62kmJdarYVAXdhA7SeeEtiGC5J1jpump | +0.0260 SOL | Buy: 0.00000030 | Sell: 0.00000033
+[01:11:49] https://dexscreener.com/solana/FezYjTJNUmezjKDE34Nche57zYG3vEPGk2kb94qfXrpm | +0.0104 SOL | Buy: 0.00000024 | Sell: 0.00000026
+[01:13:30] https://dexscreener.com/solana/GZJrtkbfmZx2Sm5sfkmKp6oLdbhQXuhb1nxAcPPupump | +0.0134 SOL | Buy: 0.00000041 | Sell: 0.00000044
+[01:14:28] https://dexscreener.com/solana/33Zy9N5gxLDegH3bpwjxFCMQaddZr1v7QFBvX4HnPWUi | +0.0092 SOL | Buy: 0.00000025 | Sell: 0.00000026
+[01:14:40] https://dexscreener.com/solana/3o7NZFrzbixMxL9JbkrUD39E1zq2r5cCYrKp35sZVNRb | +0.0010 SOL | Buy: 0.00087935 | Sell: 0.00089573
+[01:15:49] https://dexscreener.com/solana/69Fe7fAudAaJfJTA9RpYLCUdiYb92jW6fJScJTeCn7Kt | +0.1297 SOL | Buy: 0.00000034 | Sell: 0.00000050
+[01:15:57] https://dexscreener.com/solana/EV8RjaLLeZq6p1ZJVzahF3f5qYvrTutR27PQcxDdu13E | +0.0060 SOL | Buy: 0.00000025 | Sell: 0.00000026
+[01:16:25] https://dexscreener.com/solana/qXCtd5uZYAK7deDPhH3i3YyapSVxBK3yjNDrq5TYP45 | +0.0096 SOL | Buy: 0.00000025 | Sell: 0.00000026
+[01:17:33] https://dexscreener.com/solana/FHSmW3DWDCEbgVgbFdvuupKF9KK3M4WSUa9xkFM6bASh | +0.0263 SOL | Buy: 0.00000024 | Sell: 0.00000027
+[01:18:31] https://dexscreener.com/solana/ASp2UNVLbfrTVg9SwehvnPvzgM8jz1ZT9zGVmHvt7qBx | +0.0012 SOL | Buy: 0.00087934 | Sell: 0.00089610
+[01:19:07] https://dexscreener.com/solana/DGfDNdqMaW9Ax7CHNUkmFsr9X9n5cvU4xNZKV2MfzbUG | +0.0194 SOL | Buy: 0.00015604 | Sell: 0.00016863
+[01:21:22] https://dexscreener.com/solana/CSfSacaK2qEPe2bSism1V98jXcwfjm2xSjsc9jqTpump | +0.0286 SOL | Buy: 0.00000041 | Sell: 0.00000046
+[01:21:54] https://dexscreener.com/solana/FZbmDzfiAn3k41R3XKUrvKG1TrukDVnajXRumwUQiyAU | +0.5316 SOL | Buy: 0.00026713 | Sell: 0.00075050
+[01:23:24] https://dexscreener.com/solana/4TXgGpqddX8qKsbpYxa5AfqksgS64ACZdoaZcE4ELh8y | +0.0218 SOL | Buy: 0.00202545 | Sell: 0.00220514
+[01:23:30] https://dexscreener.com/solana/4i2wBgro7sz87oqt8L1nsm6xdAXxnsELG2fKDNExJpgD | +0.0194 SOL | Buy: 0.00000024 | Sell: 0.00000026
+[01:24:10] https://dexscreener.com/solana/EBwQ3k8TLg7Xhzs7Ab87w1uzAkWuXj1TSFD1Fbxx6raA | +0.0199 SOL | Buy: 0.00015603 | Sell: 0.00016889
+[01:27:00] https://dexscreener.com/solana/prGwKSdjQxT7tCqUqSirzPz58MQVqigdeT2XxpgihYm | +0.0044 SOL | Buy: 0.00000009 | Sell: 0.00000009
+[01:27:18] https://dexscreener.com/solana/DUZTjhLS6Rk3qn8DDikLLFtbSbwCcLSZa8d4VLnmbonk | +0.0291 SOL | Buy: 0.00000042 | Sell: 0.00000046
+[01:29:10] https://dexscreener.com/solana/EuguSDCQY9CbrAQiZMDfKLA7LzHaXnHLzx24RrrJoQx7 | +0.0217 SOL | Buy: 0.00000009 | Sell: 0.00000009
+[01:30:43] https://dexscreener.com/solana/Ey5H5H95GyXH7w4zLriAmyFrqXFndx9a3P9EuT8qpump | +0.0033 SOL | Buy: 0.00000041 | Sell: 0.00000042
+[01:32:06] https://dexscreener.com/solana/BjwGbCtYhtmGxz6hAxmgTeWjLv3RgWA9QgHoHd1JnduT | +0.0081 SOL | Buy: 0.00000025 | Sell: 0.00000026
+[01:34:29] https://dexscreener.com/solana/93jz1mC34zm2E11RHnNscCem8GXRqEWeSJFWnboLGyXK | +0.0492 SOL | Buy: 0.00000076 | Sell: 0.00000090
+[01:35:00] https://dexscreener.com/solana/WiC4heTq8AG8zDYBtCT3KCTUk4nCdDenpwE4siSpump | +0.0163 SOL | Buy: 0.00000048 | Sell: 0.00000051
+[01:35:05] https://dexscreener.com/solana/5dpDo6wmU6wepeAqmFGRFWidwqpA8LYAQRUVcTYmNso4 | +0.0051 SOL | Buy: 0.00000026 | Sell: 0.00000026
+[01:35:36] https://dexscreener.com/solana/DqGbUVbGKaC7mDzBLDWgWs4SPnHpt2Hu4h1V9vUsmoon | +0.0236 SOL | Buy: 0.00000047 | Sell: 0.00000051

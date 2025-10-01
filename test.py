@@ -11,19 +11,20 @@ import sys
 
 # ================== CONFIG ==================
 FEE_RATE = 0.0025         # 0.25% par transaction (achat & vente)
-SLIPPAGE_RATE_BUY = 0.03    # 8% à l'achat
-SLIPPAGE_RATE_SELL = 0.03   # 3% à la vente
+SLIPPAGE_RATE_BUY = 0.01    # 1% à l'achat
+SLIPPAGE_RATE_SELL = 0.01   # 1% à la vente
 TAX_RATE = 0.0              # 0% achat & vente
-TRADE_HOLD_SECONDS = 40           # durée d'attente avant revente
+TRADE_HOLD_SECONDS = 35           # durée d'attente avant revente
 TRADE_SIZE_SOL = 0.3               # montant investi par trade (en SOL)
-MAX_CONCURRENT_TRADES = 5         # ✅ limite de trades simultanés
+MAX_CONCURRENT_TRADES = 2         # ✅ limite de trades simultanés
 API_KEY = "eecbc989b2a944a6c7462016941249cc"
 SOLANA_STREAM_WS = "wss://api.solanastreaming.com/"  # remplace si nécessaire
 
 
 # ================== STATE ==================
 seen_tokens = set()
-portfolio_balance = 5.0        # Solde fictif du portefeuille en SOL
+portfolio_balance = 1.38        # Solde fictif du portefeuille en SOL
+initial_balance = portfolio_balance
 revenue_total = 0.0            # PnL cumulé
 start_time = time.time()
 trade_count = 0
@@ -38,8 +39,9 @@ rugpull_trades_log = []
 trade_semaphore = asyncio.Semaphore(MAX_CONCURRENT_TRADES)
 
 def save_stats():
-    global portfolio_balance, revenue_total, trade_count, successful_trades, nosuccessful_trades, rugged_count, pending_trades, successful_trades_log, nosuccessful_trades_log, rugpull_trades_log
+    global initial_balance, portfolio_balance, revenue_total, trade_count, successful_trades, nosuccessful_trades, rugged_count, pending_trades, successful_trades_log, nosuccessful_trades_log, rugpull_trades_log
     stats = {
+        "initial_balance": initial_balance,
         "portfolio_balance": portfolio_balance,
         "revenue_total": revenue_total,
         "trade_count": trade_count,
@@ -172,6 +174,7 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
             return
 
         # -------- ACHAT --------
+        equity_before = portfolio_balance
         buy_price_token_in_sol = buy_amount_sol / amount_token  # SOL par token
         amount_token_bought = amount_token  # quantité de tokens réellement obtenue
 
@@ -200,19 +203,9 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
                 # ❌ On considère que tout le total_buy_cost est perdu
                 revenue_total -= total_buy_cost
                 pnl = -total_buy_cost
-
-                rugpull_trades_log.append({   # <--- on log dans un tableau dédié
-                    "time": now,
-                    "mint": "https://dexscreener.com/solana/" + mint,
-                    "pnl": pnl,
-                    "buy_price": buy_price_token_in_sol,
-                    "sell_price": 0,
-                    "amount_token": amount_token_bought
-                })
-
+                trade_count += 1
                 now = datetime.now().strftime("%H:%M:%S")
-                nosuccessful_trades += 1
-                nosuccessful_trades_log.append({
+                rugpull_trades_log.append({   # <--- on log dans un tableau dédié
                     "time": now,
                     "mint": "https://dexscreener.com/solana/" + mint,
                     "pnl": pnl,
@@ -249,6 +242,9 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
 
         sell_price_token_in_sol = sol_received / amount_token  # SOL par token
 
+        equity_after = portfolio_balance                                     
+        pnl_pct_equity_before = (pnl / equity_before * 100) if equity_before > 0 else 0.0  
+
         if pnl > 0:
             successful_trades += 1
             save_stats()
@@ -259,7 +255,10 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
                 "pnl": pnl,
                 "buy_price": buy_price_token_in_sol,
                 "sell_price": sell_price_token_in_sol,
-                "amount_token": amount_token_bought
+                "amount_token": amount_token_bought,
+                "pnl_pct_equity_before": pnl_pct_equity_before,   
+                "equity_before": equity_before,                   
+                "equity_after": equity_after                     
             })
         else:
             nosuccessful_trades += 1
@@ -271,7 +270,10 @@ async def simulate_trade(mint, decimals, buy_amount_sol=TRADE_SIZE_SOL, hold_sec
                 "pnl": pnl,
                 "buy_price": buy_price_token_in_sol,
                 "sell_price": sell_price_token_in_sol,
-                "amount_token": amount_token_bought
+                "amount_token": amount_token_bought,
+                "pnl_pct_equity_before": pnl_pct_equity_before,   
+                "equity_before": equity_before,                   
+                "equity_after": equity_after,                     
             })
         pending_trades -= 1
         save_stats()
@@ -297,7 +299,7 @@ async def listen_pools(token_queue: asyncio.Queue):
                 "id": 1,
                 "method": "newPairSubscribe",
                 "params": {
-                    "include_pumpfun": True
+                    "include_pumpfun": False
                 }
             }))
             print_runtime("📡 Listening SolanaStreaming new pairs...")
@@ -331,30 +333,27 @@ async def listen_pools(token_queue: asyncio.Queue):
 
 async def process_tokens(token_queue: asyncio.Queue):
     last_trade_time = 0
-    RATE_LIMIT = 10  # secondes entre chaque trade
+    RATE_LIMIT = 5  # secondes entre chaque trade
     while True:
         try:
             try:
+                now = time.time()
+                if now - last_trade_time < RATE_LIMIT:
+                    # trop tôt → on remet le token en file et attend un peu
+                    await asyncio.sleep(1)
+                    continue
                 mint, decimals = await asyncio.wait_for(token_queue.get(), timeout=5.0)
             except asyncio.TimeoutError:
                 await asyncio.sleep(0)
                 continue
 
-            now = time.time()
-            if now - last_trade_time < RATE_LIMIT:
-                # trop tôt → on remet le token en file et attend un peu
-                await token_queue.put((mint, decimals))
-                await asyncio.sleep(1)
-                continue
-
             print_runtime(f"\n🔍 Nouveau token détecté : {mint}")
-            await asyncio.sleep(2)
+            await asyncio.sleep(0.3)
 
             print_runtime(f"✅ Nouveau token retenu: https://dexscreener.com/solana/{mint}")
             asyncio.create_task(simulate_trade(mint, decimals))
 
             last_trade_time = time.time()  # mise à jour du timestamp
-            await asyncio.sleep(2)  # yield pour éviter blocage
 
         except asyncio.CancelledError:
             raise
