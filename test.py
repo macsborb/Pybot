@@ -23,7 +23,7 @@ SOLANA_STREAM_WS = "wss://api.solanastreaming.com/"  # remplace si nécessaire
 
 # ================== STATE ==================
 seen_tokens = set()
-portfolio_balance = 1.38        # Solde fictif du portefeuille en SOL
+portfolio_balance = 2.8902        # Solde fictif du portefeuille en SOL
 initial_balance = portfolio_balance
 revenue_total = 0.0            # PnL cumulé
 start_time = time.time()
