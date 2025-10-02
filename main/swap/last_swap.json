@@ -1,0 +1,16 @@
+{
+  "signature": "2BpzqAifSsMNGzVcrQa2BWnsD5FYQHbN724BaghQRUd8BTishBDJycR6W2Z5qWwnc5A6zfKH2PWcfYEnGjYjCUaG",
+  "explorer": "https://solscan.io/tx/2BpzqAifSsMNGzVcrQa2BWnsD5FYQHbN724BaghQRUd8BTishBDJycR6W2Z5qWwnc5A6zfKH2PWcfYEnGjYjCUaG",
+  "inputMint": "So11111111111111111111111111111111111111112",
+  "outputMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+  "inAmountRaw": "199900000",
+  "outAmountRaw": "43705588",
+  "inDecimals": 9,
+  "outDecimals": 6,
+  "inAmount": 0.1999,
+  "outAmount": 43.705588,
+  "priceExecSolPerToken": 0.0045737858509076685,
+  "feeLamports": 105000,
+  "priorityLamports": 100000,
+  "time": "2025-10-01T17:49:39.193Z"
+}
