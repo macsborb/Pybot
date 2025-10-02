@@ -17,7 +17,7 @@ TAX_RATE = 0.0              # 0% achat & vente
 TRADE_HOLD_SECONDS = 12           # durée d'attente avant revente
 TRADE_SIZE_SOL = 0.15               # montant investi par trade (en SOL)
 MAX_CONCURRENT_TRADES = 2         # ✅ limite de trades simultanés
-API_KEY = "eecbc989b2a944a6c7462016941249cc"
+API_KEY = "SolanaStreaming_API"
 SOLANA_STREAM_WS = "wss://api.solanastreaming.com/"  # remplace si nécessaire
 
 
