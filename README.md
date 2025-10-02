@@ -1,5 +1,3 @@
------
-
 # PyBot: Automated Solana Trading Bot
 
 ## 🚀 Overview
