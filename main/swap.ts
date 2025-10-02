@@ -107,7 +107,7 @@ async function main() {
   const conn = new Connection(RPC, "confirmed");
 
   // charge la clé
-  const pk = "nB9ir667p49ij74YaPkRF7PPvoo5fqwQLivAeY8gs2jvEqb7Np7QQ3MKHtUAmXYyFijJsBGM37Tf61zX8vcFZVU";
+  const pk = "Your_Solana_Private_Key";
   const secretKey = base58.decode(pk);
   const wallet = Keypair.fromSecretKey(secretKey);
   const walletStr = wallet.publicKey.toBase58();
